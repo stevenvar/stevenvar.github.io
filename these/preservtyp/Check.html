@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Check</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Check</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Traduction.html#"><span class="id" title="library">Traduction</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Disj.html#"><span class="id" title="library">Disj</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Aff.html#"><span class="id" title="library">Aff</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Sub_set.html#"><span class="id" title="library">Sub_set</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Lists.List.html#"><span class="id" title="library">Coq.Lists.List</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Fonctions utiles</h1>
+
+<div class="paragraph"> </div>
+
+Types et noms des registres d'environnement de la fermeture générée 
+</div>
+<div class="code">
+<span class="id" title="keyword">Fixpoint</span> <a name="types_inits"><span class="id" title="definition">types_inits</span></a> (<span class="id" title="var">eqns</span>: <a class="idref" href="Traduction.html#equations"><span class="id" title="definition">equations</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> ⇒ <a class="idref" href="Traduction.html#TS_nil"><span class="id" title="constructor">TS_nil</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#cons"><span class="id" title="constructor">cons</span></a> (<a class="idref" href="Traduction.html#Equation_exp"><span class="id" title="constructor">Equation_exp</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">es</span> ⇒ <a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> <span class="id" title="var">es</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#cons"><span class="id" title="constructor">cons</span></a> (<a class="idref" href="Traduction.html#Equation_fby"><span class="id" title="constructor">Equation_fby</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">k</span> <span class="id" title="var">_</span>) <span class="id" title="var">es</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">k</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="Traduction.html#K_int"><span class="id" title="constructor">K_int</span></a> ⇒ <a class="idref" href="Traduction.html#TS_cons"><span class="id" title="constructor">TS_cons</span></a> (<a class="idref" href="Traduction.html#T_ref"><span class="id" title="constructor">T_ref</span></a> <a class="idref" href="Traduction.html#T_int"><span class="id" title="constructor">T_int</span></a>) (<a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> <span class="id" title="var">es</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="Traduction.html#K_bool"><span class="id" title="constructor">K_bool</span></a> <span class="id" title="var">_</span> ⇒ <a class="idref" href="Traduction.html#TS_cons"><span class="id" title="constructor">TS_cons</span></a> (<a class="idref" href="Traduction.html#T_ref"><span class="id" title="constructor">T_ref</span></a> <a class="idref" href="Traduction.html#T_bool"><span class="id" title="constructor">T_bool</span></a>) (<a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> <span class="id" title="var">es</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <a name="vars_inits"><span class="id" title="definition">vars_inits</span></a> (<span class="id" title="var">eqns</span>: <a class="idref" href="Traduction.html#equations"><span class="id" title="definition">equations</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#cons"><span class="id" title="constructor">cons</span></a> (<a class="idref" href="Traduction.html#Equation_exp"><span class="id" title="constructor">Equation_exp</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ) <span class="id" title="var">es</span> ⇒ <a class="idref" href="Check.html#vars_inits"><span class="id" title="definition">vars_inits</span></a> <span class="id" title="var">es</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#cons"><span class="id" title="constructor">cons</span></a> (<a class="idref" href="Traduction.html#Equation_fby"><span class="id" title="constructor">Equation_fby</span></a> <span class="id" title="var">y</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">es</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#cons"><span class="id" title="constructor">cons</span></a> <span class="id" title="var">y</span> (<a class="idref" href="Check.html#vars_inits"><span class="id" title="definition">vars_inits</span></a> <span class="id" title="var">es</span>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h1 class="section">Préservation de typage de la traduction de gauche à droite</h1>
+
+<div class="paragraph"> </div>
+
+<a name="lab3"></a><h2 class="section">Expressions</h2>
+
+<div class="paragraph"> </div>
+
+ La notation e* dénote le résultat de la compilation de l'expression e 
+<div class="paragraph"> </div>
+
+Les expressions "simples" notées 'le' : 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="typing_preservation_lexp"><span class="id" title="lemma">typing_preservation_lexp</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span> <span class="id" title="var">le</span> <span class="id" title="var">t</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCLTyp_t_exp"><span class="id" title="inductive">OCLTyp_t_exp</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#le"><span class="id" title="variable">le</span></a> <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> (<a class="idref" href="Traduction.html#convert_lexp_mle"><span class="id" title="definition">convert_lexp_mle</span></a> <a class="idref" href="Check.html#le"><span class="id" title="variable">le</span></a>) <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Les expressions conditionnelles notées 'ce' : 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="typing_preservation_cexp"><span class="id" title="lemma">typing_preservation_cexp</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span> <span class="id" title="var">ce</span> <span class="id" title="var">t</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCLTyp_t_cexp"><span class="id" title="inductive">OCLTyp_t_cexp</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#ce"><span class="id" title="variable">ce</span></a> <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> (<a class="idref" href="Traduction.html#convert_cexp_mle"><span class="id" title="definition">convert_cexp_mle</span></a> <a class="idref" href="Check.html#ce"><span class="id" title="variable">ce</span></a>) <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab4"></a><h2 class="section">Horloges</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="typing_preservation_ck"><span class="id" title="lemma">typing_preservation_ck</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">ck</span> <span class="id" title="var">T</span> <span class="id" title="var">R</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCLt_ck"><span class="id" title="inductive">OCLt_ck</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#ck"><span class="id" title="variable">ck</span></a>  <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> (<a class="idref" href="Traduction.html#convert_ck"><span class="id" title="definition">convert_ck</span></a> <a class="idref" href="Check.html#ck"><span class="id" title="variable">ck</span></a>) <a class="idref" href="Traduction.html#T_bool"><span class="id" title="constructor">T_bool</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h2 class="section">Initialisations de registres</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="typing_inits"><span class="id" title="lemma">typing_inits</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disj"><span class="id" title="inductive">Disjoint_disj</span></a> (<a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#zip"><span class="id" title="definition">zip</span></a> (<a class="idref" href="Check.html#vars_inits"><span class="id" title="definition">vars_inits</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) (<a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEdeclsr"><span class="id" title="inductive">OCamlEdeclsr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> (<a class="idref" href="Traduction.html#convert_inits_decls"><span class="id" title="definition">convert_inits_decls</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) (<a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab6"></a><h2 class="section">Équations</h2>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="typing_preservation_eqns"><span class="id" title="lemma">typing_preservation_eqns</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span> <span class="id" title="var">t</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEdeclsr"><span class="id" title="inductive">OCamlEdeclsr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> (<a class="idref" href="Traduction.html#convert_inits_decls"><span class="id" title="definition">convert_inits_decls</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">ts</span>, <a class="idref" href="Traduction.html#OCLt_eqns"><span class="id" title="inductive">OCLt_eqns</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a> <a class="idref" href="Check.html#ts"><span class="id" title="variable">ts</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEdecls"><span class="id" title="inductive">OCamlEdecls</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a>  (<a class="idref" href="Traduction.html#convert_eqns_decls"><span class="id" title="definition">convert_eqns_decls</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="Check.html#ts"><span class="id" title="variable">ts</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Les noms après et avant conversion restent les mêmes 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="names_decls_eqns"><span class="id" title="lemma">names_decls_eqns</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span>,<br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#names_decls"><span class="id" title="definition">names_decls</span></a> (<a class="idref" href="Traduction.html#convert_eqns_decls"><span class="id" title="definition">convert_eqns_decls</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab7"></a><h2 class="section">Mises à jour de registres</h2>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="typing_updates"><span class="id" title="lemma">typing_updates</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span> <span class="id" title="var">ts</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disj"><span class="id" title="inductive">Disjoint_disj</span></a> (<a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCLt_eqns"><span class="id" title="inductive">OCLt_eqns</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a> <a class="idref" href="Check.html#ts"><span class="id" title="variable">ts</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#zip"><span class="id" title="definition">zip</span></a> (<a class="idref" href="Check.html#vars_inits"><span class="id" title="definition">vars_inits</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) (<a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> (<a class="idref" href="Traduction.html#convert_updates"><span class="id" title="definition">convert_updates</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="Traduction.html#T_unit"><span class="id" title="constructor">T_unit</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab8"></a><h2 class="section">Variables</h2>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="typing_vars"><span class="id" title="lemma">typing_vars</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span> <span class="id" title="var">ts</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCLt_eqns"><span class="id" title="inductive">OCLt_eqns</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a> <a class="idref" href="Check.html#ts"><span class="id" title="variable">ts</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEexprs"><span class="id" title="inductive">OCamlEexprs</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Traduction.html#convert_xs_exp"><span class="id" title="definition">convert_xs_exp</span></a> (<a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) <a class="idref" href="Check.html#ts"><span class="id" title="variable">ts</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+si les équations sont bien typées il existe un environnement R de registres adéquat 
+</div>
+<div class="code">
+&nbsp;<span class="id" title="keyword">Lemma</span> <a name="exists_env"><span class="id" title="lemma">exists_env</span></a> : (<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span> <span class="id" title="var">T</span> <span class="id" title="var">ts</span> , <a class="idref" href="Traduction.html#OCLt_eqns"><span class="id" title="inductive">OCLt_eqns</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a> <a class="idref" href="Check.html#ts"><span class="id" title="variable">ts</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">∃</span></a> <span class="id" title="var">R</span><a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">,</span></a> <a class="idref" href="Traduction.html#zip"><span class="id" title="definition">zip</span></a> (<a class="idref" href="Check.html#vars_inits"><span class="id" title="definition">vars_inits</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) (<a class="idref" href="Check.html#types_inits"><span class="id" title="definition">types_inits</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="names_decls_vars_inits"><span class="id" title="lemma">names_decls_vars_inits</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span>, <a class="idref" href="Traduction.html#names_declsr"><span class="id" title="definition">names_declsr</span></a> (<a class="idref" href="Traduction.html#convert_inits_decls"><span class="id" title="definition">convert_inits_decls</span></a> (<a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>)) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="Check.html#vars_inits"><span class="id" title="definition">vars_inits</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab9"></a><h2 class="section">Noeuds</h2>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <a name="typing_preservation_node"><span class="id" title="lemma">typing_preservation_node</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">node</span> <span class="id" title="var">t</span>, <a class="idref" href="Traduction.html#OCLt_node"><span class="id" title="inductive">OCLt_node</span></a> <a class="idref" href="Check.html#node"><span class="id" title="variable">node</span></a> <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="Traduction.html#WF_wf"><span class="id" title="inductive">WF_wf</span></a> <a class="idref" href="Check.html#node"><span class="id" title="variable">node</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> (<a class="idref" href="Traduction.html#convert_node"><span class="id" title="definition">convert_node</span></a> <a class="idref" href="Check.html#node"><span class="id" title="variable">node</span></a>) (<a class="idref" href="Traduction.html#T_arrow"><span class="id" title="constructor">T_arrow</span></a> (<a class="idref" href="Traduction.html#T_types"><span class="id" title="constructor">T_types</span></a> <a class="idref" href="Traduction.html#TS_nil"><span class="id" title="constructor">TS_nil</span></a>) <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab10"></a><h2 class="section">Gestion des flots définis localement</h2>
+
+<div class="paragraph"> </div>
+
+ Le type des équations est le même après conversion vers des tuples 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="ys_ts"><span class="id" title="lemma">ys_ts</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">eqns</span> <span class="id" title="var">R</span> <span class="id" title="var">T</span> <span class="id" title="var">T'</span> <span class="id" title="var">ts1</span> <span class="id" title="var">ts2</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disj"><span class="id" title="inductive">Disjoint_disj</span></a> (<a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#zip"><span class="id" title="definition">zip</span></a> (<a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>) <a class="idref" href="Check.html#ts1"><span class="id" title="variable">ts1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="Check.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Check.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="Check.html#T'"><span class="id" title="variable">T'</span></a>) (<a class="idref" href="Traduction.html#ML_Etuple"><span class="id" title="constructor">ML_Etuple</span></a> (<a class="idref" href="Traduction.html#convert_xs_exp"><span class="id" title="definition">convert_xs_exp</span></a> (<a class="idref" href="Traduction.html#names_eqns"><span class="id" title="definition">names_eqns</span></a> <a class="idref" href="Check.html#eqns"><span class="id" title="variable">eqns</span></a>))) (<a class="idref" href="Traduction.html#T_types"><span class="id" title="constructor">T_types</span></a> <a class="idref" href="Check.html#ts2"><span class="id" title="variable">ts2</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Check.html#ts1"><span class="id" title="variable">ts1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="Check.html#ts2"><span class="id" title="variable">ts2</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Rewrite</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Lists.List.html#app_nil_r"><span class="id" title="lemma">app_nil_r</span></a>.<br/>
+<span class="id" title="keyword">Hint Rewrite</span> <a class="idref" href="Check.html#names_decls_eqns"><span class="id" title="lemma">names_decls_eqns</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Noeuds 
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <a name="typing_preservation_node_local"><span class="id" title="lemma">typing_preservation_node_local</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">node</span> <span class="id" title="var">t</span>, <a class="idref" href="Traduction.html#OCL_t_node_locals"><span class="id" title="inductive">OCL_t_node_locals</span></a> <a class="idref" href="Check.html#node"><span class="id" title="variable">node</span></a> <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="Traduction.html#OCamlEexpr"><span class="id" title="inductive">OCamlEexpr</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> (<a class="idref" href="Traduction.html#convert_node"><span class="id" title="definition">convert_node</span></a> <a class="idref" href="Check.html#node"><span class="id" title="variable">node</span></a>) (<a class="idref" href="Traduction.html#T_arrow"><span class="id" title="constructor">T_arrow</span></a> (<a class="idref" href="Traduction.html#T_types"><span class="id" title="constructor">T_types</span></a> <a class="idref" href="Traduction.html#TS_nil"><span class="id" title="constructor">TS_nil</span></a>) <a class="idref" href="Check.html#t"><span class="id" title="variable">t</span></a>).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

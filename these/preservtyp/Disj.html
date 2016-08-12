@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Disj</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Disj</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Traduction.html#"><span class="id" title="library">Traduction</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Lists.List.html#"><span class="id" title="library">List</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab49"></a><h1 class="section">Lemmes utilitaires</h1>
+
+<div class="paragraph"> </div>
+
+<a name="lab50"></a><h2 class="section">Egalités</h2>
+
+<div class="paragraph"> </div>
+
+ L'égalité des identifieurs est reflexive 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="eq_ident_refl"><span class="id" title="lemma">eq_ident_refl</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> {<span class="id" title="var">A</span>} <span class="id" title="var">x</span> (<span class="id" title="var">e1</span>:<a class="idref" href="Disj.html#A"><span class="id" title="variable">A</span></a>) <span class="id" title="var">e2</span>,  <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">(</span></a> <span class="id" title="keyword">if</span> <a class="idref" href="Traduction.html#eq_identifier"><span class="id" title="lemma">eq_identifier</span></a> <a class="idref" href="Disj.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Disj.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="keyword">then</span> <a class="idref" href="Disj.html#e1"><span class="id" title="variable">e1</span></a> <span class="id" title="keyword">else</span> <a class="idref" href="Disj.html#e2"><span class="id" title="variable">e2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="Disj.html#e1"><span class="id" title="variable">e1</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Une tactique utile 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">cinversion</span> <span class="id" title="var">a</span> := <span class="id" title="tactic">inversion</span> <span class="id" title="var">a</span>; <span class="id" title="tactic">subst</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">a</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab51"></a><h2 class="section">Lemmes en rapport avec la disjonction</h2>
+
+<div class="paragraph"> </div>
+
+ toute liste de variables est disjointe de la liste vide 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="disjoint_nil"><span class="id" title="lemma">disjoint_nil</span></a> :<br/>
+<span class="id" title="keyword">∀</span> <span class="id" title="var">xs</span>,<br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+lemme d'affaiblissement pour Disjoint 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="aff_disjs"><span class="id" title="lemma">aff_disjs</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">xs</span> <span class="id" title="var">a</span> <span class="id" title="var">ys</span>,<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a> (<a class="idref" href="Disj.html#a"><span class="id" title="variable">a</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#0a8150c3c4df34d205c5ed9a427e2ed5"><span class="id" title="notation">::</span></a><a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a> <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+par définition deux listes disjointes n'ont pas de variables en commun 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Hh"><span class="id" title="lemma">Hh</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">xs</span> <span class="id" title="var">y</span> <span class="id" title="var">ys</span>,<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a> (<a class="idref" href="Disj.html#y"><span class="id" title="variable">y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#0a8150c3c4df34d205c5ed9a427e2ed5"><span class="id" title="notation">::</span></a> <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#not"><span class="id" title="definition">not</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Lists.List.html#In"><span class="id" title="definition">In</span></a> <a class="idref" href="Disj.html#y"><span class="id" title="variable">y</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+La disjonction est symétrique 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="disjs_sym"><span class="id" title="lemma">disjs_sym</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">xs</span> <span class="id" title="var">ys</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#xs"><span class="id" title="variable">xs</span></a> <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+si une liste est disjointe d'une liste ys, n'importe quelle sous-liste l'est aussi 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="Disjoint_disjs_app_l"><span class="id" title="lemma">Disjoint_disjs_app_l</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">l</span> <span class="id" title="var">ys</span> <span class="id" title="var">r</span>,<br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> (<a class="idref" href="Disj.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="Disj.html#r"><span class="id" title="variable">r</span></a> ) <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+même lemme que le précédent mais avec une sous liste construite dans l'autre sens 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="Disjoint_disjs_app_r"><span class="id" title="lemma">Disjoint_disjs_app_r</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">l</span> <span class="id" title="var">ys</span> <span class="id" title="var">r</span>,<br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> (<a class="idref" href="Disj.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="Disj.html#r"><span class="id" title="variable">r</span></a> ) <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">→</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="Traduction.html#Disjoint_disjs"><span class="id" title="inductive">Disjoint_disjs</span></a> <a class="idref" href="Disj.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="Disj.html#ys"><span class="id" title="variable">ys</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

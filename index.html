@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+	<title>Steven Varoumas</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<link rel="icon" type="image/png" href="img/favicon.ico" />
+	<script type="text/javascript">
+		function setMsg() {
+			const msg = ["let about_me =",
+				"var about_me =",
+				"char** about_me =",
+				"string aboutMe =",
+				"auto aboutMe =",
+				"#define ABOUTME ",
+				"def about_me():"];
+
+			let num = Math.floor(Math.random() * msg.length);
+			document.getElementById("msg").textContent = msg[num]
+		}
+	</script>
+</head>
+
+<body onload="setMsg()">
+	<header>
+		<!-- <meta name="theme-color" content="#F38D68" media="(prefers-color-scheme: light)"> -->
+		<!-- <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#7698B3"> -->
+	</header>
+
+	<div id=menu>
+		<div style="position:absolute">&nbsp; Steven Varoumas</div>
+		<center>
+			&middot;
+			<span class="menulinks">
+				<a href="index.html">about me</a>
+			</span>
+			&middot;
+			<span class="menulinks">
+				<a href="research.html">research activities</a>
+			</span>
+			&middot;
+			<span class="menulinks">
+				<a href="http://www.github.com/stevenvar">my github</a>
+			</span>
+			&middot;
+			<span class="menulinks">
+				<a href="https://www.linkedin.com/in/steven-varoumas-96475453/">contact me</a>
+			</span>
+			&middot;
+			<span class="menulinks">
+				<a href="CV_en-2.pdf"> my CV </a>
+			</span>
+			&middot;
+		</center>
+	</div>
+
+	<section>
+		<article style="margin-top:40px; padding-top:20px; padding-bottom:20px">
+			<img src="img/me2.png" width="160" height="160" alt="my face"
+				style="border-radius:5%;float:left; margin: 10pt; margin-right:15pt" />
+			<code id="msg">
+	</code>
+			<div>
+				<p>
+					My name is Steven Varoumas, I am a PhD graduate 👨‍🎓 in Computer Science from <a
+						href="http://www.sorbonne-universite.fr/en">Sorbonne University</a> in Paris, France.
+				</p>
+				<p>
+					From a young age, I have been quite fascinated with computers, and I am now fond of <b>functional
+						programming</b> (OCaml 🐫, Haskell, Erlang, ...), and well-versed in object-oriented and
+					imperative programming languages (Java, C/C++, Python ...). I also have high interests and
+					expertise in <b>embedded software</b> programming, <b>compilers</b> implementation, theorem proving
+					and model
+					checking.
+				</p>
+
+				<p>
+					My PhD thesis was about
+					<b>microcontrollers</b>/embedded systems programming, for which I was interested in using
+					<b>high-level
+						programming paradigms</b> that would be adapted to the scarce resources of such devices, while
+					providing a
+					more expressive and safer model than traditional C/assembly languages often used to program embedded
+					systems. This work led me to create an implementation of <a
+						href="https://github.com/stevenvar/OMicroB">an OCaml <b>virtual machine</b></a> that was able to
+					run
+					non-trivial programs written in a multiparadigm programming language on various microcontrollers
+					with
+					less than 8 kB or RAM. I also developed <a href="https://github.com/stevenvar/OCaLustre">a
+						<b>synchronous programming</b>
+						extension</a> to the OCaml language which further improves the safety and expressivity of the
+					concurrent aspects of an embedded system. During my PhD thesis, I also highly enjoyed teaching
+					university students multiple topics of computer science, from compilers to functional programming,
+					concurrency, algorithms, and theorem proving.
+				</p>
+
+				<p> The manuscript of my thesis (just in French for now) and a list of my publications and talks are
+					accessible on the <a href="research.html">research section</a> of this website.
+				</p>
+
+				<p>
+					I was born-and-raised in a small town in <a href="https://fr.wikipedia.org/wiki/Troyes">a small
+						town</a>
+					in eastern France 🇫🇷, and
+					lived in Paris for about 10 years, where I enjoyed the big city life and opportunities to meet with
+					great scientists during my PhD.
+					I then moved to the UK 🇬🇧 where I first worked in 2019-2020 as a Research Associate in the <a
+						href="https://www.cs.kent.ac.uk/">School of Computing</a> of the <a
+						href=https://www.kent.ac.uk />University of Kent</a> (Canterbury, England) on the development of
+					<a href="https://trustworthy-refactoring.gitlab.io/refactorer/">ROTOR</a>, a formally proven
+					refactoring
+					tool for OCaml programs.
+					I am currently, since January 2021, a Compiler Engineer at Huawei Technologies Research &
+					Development
+					UK, in Cambridge.
+				</p>
+
+				My (more or less up to date) CV is accessible <a href="CV_en-2.pdf">here</a>
+				<!--	<p> I love everything about science 🔬 and new technologies 📱,  as well as animals 🦒, reading 📖, and travelling 🗺 (<a href="map.html">here</a> is a - hopefully growing - map of places I've visited). </p> -->
+			</div>
+		</article>
+</body>
+
+</html>
