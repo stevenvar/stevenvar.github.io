@@ -42,7 +42,7 @@ Notation "e '==?' v" := (e = Some v) (at level 70, only parsing).
 Definition var := string.
 
 
-(* The mini-language instructions :  *)
+(** The mini-language instructions :  *)
 
 Inductive instr :=
 | Init : var -> nat -> instr (* x = 3 *)
@@ -95,11 +95,11 @@ Definition lifted_minus v w :=
 Local Open Scope string_scope.
 
 
-(* A state is a program * a code pointer * a memory  *)
+(** A state is a program * a code pointer * a memory  *)
 
 Definition state : Type := list (nat * instr) * nat * list (var * option nat).
 
-(* The step function of the mini-language : *)
+(** The step function of the mini-language : *)
 
 Fixpoint step_opt (st : state): option state :=
   match st with
@@ -135,7 +135,7 @@ Fixpoint step_opt (st : state): option state :=
     end
   end.
 
-(* The deterministic small-step semantics of the mini-lang : *)
+(** The deterministic small-step semantics of the mini-lang : *)
 
 
 Inductive det_sem : state -> state -> Prop :=
@@ -169,7 +169,7 @@ Inductive det_sem : state -> state -> Prop :=
     det_sem (p, pc, m) (p, n, m)
 .
 
-(* Proof that the function and the inductive relation are the same :  *)
+(** Proof that the function and the inductive relation are the same :  *)
 
 
 Lemma step_opt_det_sem : forall s s' , step_opt s = Some s' <-> det_sem s s'.
@@ -259,8 +259,8 @@ Proof.
       -- simpl. rewrite H. rewrite H0. simpl. auto.
 Qed.
 
-(* Some variables values might not be known at compile time : we introduce a
- * non-deterministic semantics for dealing with this *)
+(** Some variables values might not be known at compile time : we introduce a
+  non-deterministic semantics for dealing with this *)
 
 Inductive nondet_sem: state -> state -> Prop :=
 | ND_Step_1 : forall p pc m x n,
@@ -305,7 +305,7 @@ Inductive nondet_sem: state -> state -> Prop :=
 
 
 
-  (* An erased memory is a memory with less known variables (unknown variable = None value)  : *)
+  (** An erased memory is a memory with less known variables (unknown variable = None value)  : *)
 
 Inductive erased : list (var * option nat) -> list (var * option nat) -> Prop :=
 | Erased_1: forall x v tl1 tl2,
@@ -318,7 +318,7 @@ Inductive erased : list (var * option nat) -> list (var * option nat) -> Prop :=
 .
 
 
-(* An erased state contains an erased memory *)
+(** An erased state contains an erased memory *)
 
 Inductive state_erased: state -> state -> Prop :=
 | State_Erased : forall p pc m1 m2,
@@ -327,7 +327,7 @@ Inductive state_erased: state -> state -> Prop :=
 
 
 
-(* A (deterministic) run follows the deterministic semantics upto a return instruction *)
+(** A (deterministic) run follows the deterministic semantics upto a return instruction *)
 
 Inductive run: state -> (list state) -> Prop :=
 | Run_1 :  forall p pc m, (* final state *)
@@ -349,12 +349,12 @@ Proof.
 Qed.
 
 
-(* We use a cost function to compute the cost of a run *)
+(** We use a cost function to compute the cost of a run *)
 
-(* First a function giving each instruction a cost *)
+(** First a function giving each instruction a cost *)
 Parameter instr_cost : instr -> nat.
 
-(* The function that computes the cost associated with a state *)
+(** The function that computes the cost associated with a state *)
 
 Definition step_cost {A} (st: (program * nat * A)) :=
   match st with
@@ -365,7 +365,7 @@ Definition step_cost {A} (st: (program * nat * A)) :=
     end
   end.
 
-(* The cost of a run *)
+(** The cost of a run *)
 
 Fixpoint cost {A} (r: list (program * nat * A)) :=
   match r with
@@ -378,7 +378,7 @@ Fixpoint cost {A} (r: list (program * nat * A)) :=
   end.
 
 
-(* The cost of a step is the same even with an erased memory *)
+(** The cost of a step is the same even with an erased memory *)
 
 Lemma step_cost_erased_is_equal : forall s s' , state_erased s s' -> step_cost (s) = step_cost(s').
 Proof.
@@ -390,7 +390,7 @@ Proof.
 Qed.
 
 
-(* An erased trace is a run with all its states (more or less) erased *)
+(** An erased trace is a run with all its states (more or less) erased *)
 
 Inductive erased_trace: list state -> list state -> Prop :=
 | Erased_Trace_1 :
@@ -400,7 +400,7 @@ Inductive erased_trace: list state -> list state -> Prop :=
     erased_trace T1 T1' ->
     erased_trace (st1::T1) (st1'::T1').
 
-(* The cost of an erased trace is the same as the initial trace *)
+(** The cost of an erased trace is the same as the initial trace *)
 
 
 Lemma trace_cost_erased_is_equal : forall T T', erased_trace T T' -> cost(T) = cost(T').
@@ -415,8 +415,8 @@ Proof.
     auto.
 Qed.
 
-(* max run cost computes the most expensive cost of an (erased) program : if there is ambiguity as to
- * which branch to take, the max run takes the branch with the greater cost *)
+(** max run cost computes the most expensive cost of an (erased) program : if there is ambiguity as to
+  which branch to take, the max run takes the branch with the greater cost *)
 
 Inductive max_run_cost : state -> nat -> Prop :=
 | Max_Run_Cost_1 : forall p pc m, (* final state *)
@@ -444,7 +444,7 @@ Inductive max_run_cost : state -> nat -> Prop :=
     k <= k' ->
     max_run_cost (p, pc, m) (c + k').
 
-(* Another definition of max run cost *)
+(** Another definition of max run cost *)
 Inductive max_run_cost2 : state -> nat -> Prop :=
 | Max_Run_Cost2_1 : forall p pc m, (* final state *)
     assoc_instr pc p ==? Return ->
@@ -509,7 +509,7 @@ Proof.
 Qed.
 
 
-(* The two definitions of max run cost are equivalent *)
+(** The two definitions of max run cost are equivalent *)
 Lemma max_run_cost_equiv_max_run_cost2 : forall s k , max_run_cost s k <-> max_run_cost2 s k.
 Proof.
   intros.
@@ -572,7 +572,7 @@ Proof.
          auto.
 Qed.
 
-(* The cost of a step is unique : there is no other identical step with a different cost  *)
+(** The cost of a step is unique : there is no other identical step with a different cost  *)
 Lemma step_cost_is_unique : forall (s:state) k k' , step_cost s = Some k -> step_cost s = Some k' -> k = k'.
 Proof.
   intros.
@@ -599,7 +599,7 @@ Qed.
 
 
 
-(* The maximum cost is unique : there are no two identical computation of max_run_cost that give different results *)
+(** The maximum cost is unique : there are no two identical computation of max_run_cost that give different results *)
 Lemma max_run_cost_is_unique : forall s k , max_run_cost s k -> forall k' , max_run_cost s k' -> k = k'.
 Proof.
   intros s k H.
@@ -692,7 +692,7 @@ Proof.
       auto.
 Qed.
 
-(* Every transition in the deterministic semantics exists in the non-deterministic semantics *)
+(** Every transition in the deterministic semantics exists in the non-deterministic semantics *)
 Lemma embedding : forall s s' , (det_sem s s') -> (nondet_sem s s').
       Proof.
   intros.
@@ -714,9 +714,9 @@ Lemma embedding : forall s s' , (det_sem s s') -> (nondet_sem s s').
 Qed.
 
 
-(* Some useful auxiliary lemmas ... *)
+(** Some useful auxiliary lemmas ... *)
 
-(* Erasure is reflexive *)
+(** Erasure is reflexive *)
  Lemma LRefl : forall m, erased m m.
  Proof.
   intros.
@@ -883,7 +883,7 @@ Proof.
 Qed.
 
 
-(* The conservation property : if there is a transition s1 ~~> s2 in the non-deterministic semantics, there exists an equivalent transition s1' ~~> s2' with erased memories (ie. s1 --> s1' and s2 --> s2') *)
+(** The conservation property : if there is a transition s1 ~~> s2 in the non-deterministic semantics, there exists an equivalent transition s1' ~~> s2' with erased memories (ie. s1 --> s1' and s2 --> s2') *)
 Lemma conservation : forall P pc1 pc2 M1 M2 M1' ,
     nondet_sem (P,pc1,M1) (P,pc2,M2) -> erased M1 M1' -> exists M2' , nondet_sem (P,pc1,M1') (P,pc2,M2') /\ erased M2 M2'.
 Proof.
@@ -1106,7 +1106,7 @@ Proof.
     + subst; auto.
 Qed.
 
-(* The conservations property holds when going from the deterministic semantics to the nondet :  *)
+(** The conservations property holds when going from the deterministic semantics to the nondet :  *)
 Lemma post_embedding_conservation : forall P pc1 pc2 M1 M2 M1' ,
     det_sem (P,pc1,M1) (P,pc2,M2) -> erased M1 M1' -> exists M2' , nondet_sem (P,pc1,M1') (P,pc2,M2') /\ erased M2 M2'.
 Proof.
@@ -1117,7 +1117,7 @@ Proof.
   auto.
 Qed.
 
-(* A trace in the non-deterministic semantics : *)
+(** A trace in the non-deterministic semantics : *)
 Inductive trace_nondet: list state -> Prop :=
 | Trace_Nondet_1 : forall st,
     trace_nondet (st::nil)
@@ -1126,7 +1126,7 @@ Inductive trace_nondet: list state -> Prop :=
     trace_nondet (st2::r) ->
     trace_nondet (st1::st2::r).
 
-(* A deterministic trace is a non-deterministic trace *)
+(** A deterministic trace is a non-deterministic trace *)
 Lemma trace_embedding : forall s T , run s T -> trace_nondet (T).
 Proof.
   intros.
@@ -1148,7 +1148,7 @@ Proof.
 Qed.
 
 
-(* A program doesnt change after erasure of the memory of the state *)
+(** A program doesnt change after erasure of the memory of the state *)
 
 Lemma program_invariant : forall p1 p2 pc1 pc2 m1 m2,
     nondet_sem (p1,pc1,m1) (p2,pc2,m2) -> p1 = p2.
@@ -1157,7 +1157,7 @@ Proof.
   inversion H; auto.
 Qed.
 
-      (* Conservation property for nondet traces *)
+      (** Conservation property for nondet traces *)
 Lemma trace_conservation : forall T  s s' ,
     trace_nondet (s::T) -> state_erased s s' -> exists T' , erased_trace  (s::T) (s'::T') /\ trace_nondet(s'::T').
 Proof.
@@ -1223,7 +1223,7 @@ Proof.
     apply state_erased_refl.
 Qed.
 
-(* The final function returns True if the given state is final (i.e. is a Return instr) *)
+(** The final function returns True if the given state is final (i.e. is a Return instr) *)
 
 Definition final (st : option state) :=
   match st with
@@ -1231,7 +1231,7 @@ Definition final (st : option state) :=
   | Some (p, pc, m) => assoc_instr pc p ==? Return
   end.
 
-(* The last function returns the last state of a trace :  *)
+(** The last function returns the last state of a trace :  *)
 
 Fixpoint last {A} (l : list A) :=
   match l with
@@ -1240,7 +1240,7 @@ Fixpoint last {A} (l : list A) :=
   | (h :: t) => last t
   end.
 
-(* last doesnt care about the head of a trace : *)
+(** last doesnt care about the head of a trace : *)
 
 Lemma last_cons : forall st (r : list state) , r <> nil -> last(st :: r) = last (r).
 Proof.
@@ -1253,17 +1253,17 @@ Proof.
     auto.
 Qed.
 
-(* A normal trace is a trace that ends with a Return instruction :  *)
+(** A normal trace is a trace that ends with a Return instruction :  *)
 
 Definition trace_norm (T : list state) := final(last(T)).
 
-(* A finite trace is a trace that follows the non deterministic semantics and
- * ends with a return instruction :  *)
+(** A finite trace is a trace that follows the non deterministic semantics and
+  ends with a return instruction :  *)
 
 Definition trace_finite (T : list state) := final(last(T)) /\ trace_nondet(T).
 
 
-(* Obvious lemmas  : *)
+(** Obvious lemmas  : *)
 
 Lemma trace_finite_is_trace_nondet : forall T, trace_finite T -> trace_nondet T.
   intros.
@@ -1317,7 +1317,7 @@ Lemma trace_finite_is_normal : forall T , trace_finite T -> final(last(T)).
   auto.
 Qed.
 
-(* A deterministic run finishes with the return instruction, it is thus normal  : *)
+(** A deterministic run finishes with the return instruction, it is thus normal  : *)
 
 Lemma deterministic_is_normal : forall s T ,
     run s T -> final (last (T)).
@@ -1333,7 +1333,7 @@ Proof.
       discriminate.
   Qed.
 
-(* Because the deterministic semantics can be lifted to the non deterministic semantics,
+(** Because the deterministic semantics can be lifted to the non deterministic semantics,
    a deterministic run is a finite run  *)
 
 Lemma deterministic_is_finite : forall s T,
@@ -1349,7 +1349,7 @@ Proof.
     eauto.
   Qed.
 
-(* A normal run stays normal after erasure of its memory *)
+(** A normal run stays normal after erasure of its memory *)
   Lemma erased_norm_is_norm_aux: forall t t',
       erased_trace t t' ->
       final (last (t)) ->
@@ -1383,8 +1383,8 @@ Proof.
   Qed.
 
 
-    (* The max run is very close to max run cost but returns the trace of the maximum run of
-* the program, not its cost *)
+    (** The max run is very close to max run cost but returns the trace of the maximum run of
+ the program, not its cost *)
 
   Inductive max_run: state -> (list state) -> Prop :=
 | Max_Run_1 : forall p pc m, (* final state *)
@@ -1411,7 +1411,7 @@ Proof.
 .
 
 
-(* Useful property : a max run always begins with its the state given as a first parameter : *)
+(** Useful property : a max run always begins with its the state given as a first parameter : *)
 
 Lemma max_run_init : forall s s' T , max_run s (s' :: T) -> s = s'.
 Proof.
@@ -1419,7 +1419,7 @@ Proof.
   inversion H; subst; auto.
 Qed.
 
-(* A max run is a special case of finite run :  *)
+(** A max run is a special case of finite run :  *)
 Lemma max_run_is_finite : forall s T , max_run s T -> trace_finite T.
 Proof.
   intros.
@@ -1513,7 +1513,7 @@ Qed.
 
 
 
-(* Quite obviously, the cost of the max run is the maximum cost of the program :  *)
+(** Quite obviously, the cost of the max run is the maximum cost of the program :  *)
 Lemma max_run_cost_is_max_cost: forall st k, max_run_cost st k -> exists r, max_run st r /\ cost r = k.
 Proof.
   intros st k H.
@@ -1582,7 +1582,7 @@ Proof.
     auto.
 Qed.
 
-(* Some useful lemmas *)
+(** Some useful lemmas *)
 
 Lemma L10: forall (st: state) r, cost (st :: r) >= cost (st :: nil).
 Proof.
@@ -1604,7 +1604,7 @@ Proof.
   - omega.
 Qed.
 
-(* The max run is finite, thus it is normal :  *)
+(** The max run is finite, thus it is normal :  *)
 Lemma max_run_is_normal : forall s T , max_run s T -> final(last(T)).
 Proof.
   intros.
@@ -1614,7 +1614,7 @@ Proof.
 Qed.
 
 
-(* Auxiliary lemmas *)
+(** Auxiliary lemmas *)
 Lemma max_run_init2 : forall s t , max_run s t -> exists t' , t = s::t'.
   intros.
   inversion H; eexists; eauto.
@@ -1637,7 +1637,7 @@ Qed.
 
 
 
-(* The max run has a cost that is greater than all the others finite traces :  *)
+(** The max run has a cost that is greater than all the others finite traces :  *)
 Lemma max_run_is_max : forall st r, trace_finite (st::r) -> forall r', max_run st (r') -> (cost (r') >= cost (st::r)).
 Proof.
   intros.
@@ -1754,8 +1754,8 @@ Proof.
 Qed.
 
 
-(* The cost of the max run is still greater than other finite traces even when its computed
- * from an erased version of the memories of the traces *)
+(** The cost of the max run is still greater than other finite traces even when its computed
+  from an erased version of the memories of the traces *)
 Lemma max_run_erased :
   forall m st', max_run st' m ->
                 forall st r, trace_finite (st :: r) ->
@@ -1769,8 +1769,8 @@ Proof.
   omega.
 Qed.
 
-(* The cost of the max run is greater than other finite traces even when its computed
- * from an erased version of the memory of the beginning state *)
+(** The cost of the max run is greater than other finite traces even when its computed
+  from an erased version of the memory of the beginning state *)
 
 Lemma max_run_erased_is_max :
   forall m st', max_run st' m ->
@@ -1795,8 +1795,8 @@ Proof.
 Qed.
 
 
-(* The cost computed by max run cost from an erased version of the memory of the beginning state
- * is greater than the cost of every finite trace *)
+(** The cost computed by max run cost from an erased version of the memory of the beginning state
+  is greater than the cost of every finite trace *)
 Lemma max_run_erased_is_max_cost :
   forall k st', max_run_cost st' k ->
                 forall st r, trace_finite (st::r) ->
@@ -1813,8 +1813,8 @@ Qed.
 
 
 
-(* The cost computed by max run cost from an erased version of the memory of the beginning state
- * is greater than the actuel cost of the program *)
+(** The cost computed by max run cost from an erased version of the memory of the beginning state
+  is greater than the actuel cost of the program *)
 Theorem max_cost_final :
   forall k st', max_run_cost st' k ->
                 forall st r, run st (st::r) ->
@@ -1830,7 +1830,7 @@ Proof.
 Qed.
 
 
-(* The final theorem : k is an upper bound of the cost of the actual execution of the program *)
+(** The final theorem : k is an upper bound of the cost of the actual execution of the program *)
 Theorem max_cost_final' :
   forall k st', max_run_cost st' k ->
                 forall st r, run st (r) ->
@@ -1850,7 +1850,7 @@ Proof.
 Qed.
 
 
-(* The theorem as it is shown in the manuscript : *)
+(** The theorem as it is shown in the manuscript : *)
 
 Theorem max_cost_final_rephrased :
   forall k st st' t,
