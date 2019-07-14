@@ -1,0 +1,30 @@
+
+all : inline checker.pdf
+
+inline : ../ott_inlines/checker.tex
+
+../ott_inlines/checker.tex : syntax.ott checker.ott
+	ott $^ -tex_wrap false -tex_show_meta false -tex_wrap false -tex_name_prefix "checker" -o $@
+
+checker.pdf : syntax.ott checker.ott
+	ott $^ -tex_show_meta false -tex_name_prefix "checker" -o checker.tex
+	pdflatex checker.tex
+
+Checker.v : syntax.ott checker.ott
+	ott $^ -coq_expand_list_types false -o $@
+
+Checker.vo : Checker.v
+	coqc $<
+
+Check.vo : Check.v Checker.vo
+	coqc $<
+
+coq : Checker.vo
+
+ml : Check.vo
+
+doc : Checker.v Check.v
+	mkdir pdf ; coqdoc -latex $^ -o pdf/check.tex && cd pdf && pdflatex check.tex
+
+clean:
+	$(RM) -r checker.tex checker.pdf Checker.v *.vo *.cmi *.cmo *.mli *.ml *.aux *.log *.glob *.pdf
