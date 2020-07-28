@@ -67,8 +67,8 @@ abbr:hover{
 }
 
 a{
-    color:#F24C00;
-    text-decoration:none;
+    color:#d97e5d;
+    text-decoration:underline;
 
 }
 
@@ -86,14 +86,23 @@ a{
     margin-left:-3pt;
 }
 
-a:hover{
-    color:#FC7A1E;
+#menu a:hover{
+    color:#FFCF99;
+    text-decoration:none;
+}
+
+#menu a{
+    text-decoration:none;
+}
+
+ a:hover{
+
     text-decoration:none;
 }
 
 #menu{
     /*    background-color:black; */
-    background-color:#485696;
+    background-color:#F38D68;
     /*    filter: drop-shadow(0px 0px 10px #5a7562); */
     position:absolute;
     left:0;
@@ -247,7 +256,7 @@ code::after {
     }
 
     #menu{
-	background-color:#477998;
+	background-color:#7698B3;
 	/*	filter: drop-shadow(0px 0px 0px #364466);  */
 	/*	filter: invert(100%); */
     }
@@ -257,7 +266,7 @@ code::after {
     }
 
     a{
-	color:#EAD2AC;
+	color:#84a5bf;
 	/*	filter:invert(60%); */
     }
     article{
