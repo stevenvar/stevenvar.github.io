@@ -75,8 +75,21 @@ text-decoration:none;
 
 }
 
-a:hover{
+.menulinks a {
+    margin-left:2pt;
+    margin-right:2pt;
+    color:white;
+}
+.menulinks a:hover {
 
+}
+
+.menulinks:hover a:before {
+    content: '!';
+    margin-left:-3pt;
+}
+
+a:hover{
     color:#FC7A1E;
     text-decoration:none;
 }
@@ -97,10 +110,7 @@ a:hover{
 
 }
 
-#menu a{
-    color:#F64740;
 
-}
 
 #clicked{
     font-size:13pt;
@@ -122,6 +132,7 @@ article{
 /*    margin-bottom:15pt; */
     margin-right:auto;
     margin-left:auto;
+    margin-bottom:10pt;
     padding:20pt;
 
   transition: 0.3s;
