@@ -269,6 +269,11 @@ code::after {
 	color:#84a5bf;
 	/*	filter:invert(60%); */
     }
+
+    #menu a:hover{
+	color:#b0d0eb;
+    }
+
     article{
 	background-color:#020202;
     }
