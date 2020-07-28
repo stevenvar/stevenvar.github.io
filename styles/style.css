@@ -251,14 +251,12 @@ code::after {
 
 @media (prefers-color-scheme: dark) {
     body{
-	background-color:black;
+	background-color:#272a2b;
 	color:white;
     }
 
     #menu{
 	background-color:#7698B3;
-	/*	filter: drop-shadow(0px 0px 0px #364466);  */
-	/*	filter: invert(100%); */
     }
 
     td{
@@ -275,7 +273,7 @@ code::after {
     }
 
     article{
-	background-color:#020202;
+	background-color:#393E41;
     }
 
     .abstract{
