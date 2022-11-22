@@ -8,16 +8,22 @@
 	<link rel="icon" type="image/png" href="img/favicon.ico" />
 	<script type="text/javascript">
 		function setMsg() {
-			const msg = ["let about_me =",
-				"var about_me =",
-				"char** about_me =",
-				"string aboutMe =",
-				"auto aboutMe =",
-				"#define ABOUTME ",
-				"def about_me():"];
+			const msg = [
+				["let about_me =", ""],
+				["var about_me =", ""],
+				["char** about_me =", ""],
+				["string aboutMe =", ""],
+				["auto aboutMe =",""],
+				["#define ABOUTME ",""],
+				["function about_me() {","}"],
+				["(defvar aboutme ",")"],
+				["aboutme() ->","."],
+				["func aboutMe() -> () {", "}"],
+				["def about_me():",""],];
 
 			let num = Math.floor(Math.random() * msg.length);
-			document.getElementById("msg").textContent = msg[num]
+			document.getElementById("msg").textContent = msg[num][0]
+			document.getElementById("msgend").textContent = "\n"+msg[num][1]
 		}
 	</script>
 </head>
@@ -60,7 +66,7 @@
 			<img src="img/me2.png" width="160" height="160" alt="my face"
 				style="border-radius:5%;float:left; margin: 10pt; margin-right:15pt" />
 			<code id="msg">
-	</code>
+			</code>
 			<div>
 				<p>
 					My name is Steven Varoumas, I am a PhD graduate 👨🏻‍🎓 in Computer Science from <a
@@ -116,8 +122,12 @@
 					UK, in Cambridge.
 				</p>
 
-				My (more or less up to date) CV is accessible <a href="CV_en-2.pdf">here</a>
+				<p>
+				My (more or less up to date) CV is accessible <a href="CV_en-2.pdf">here</a>.
 				<!--	<p> I love everything about science 🔬 and new technologies 📱,  as well as animals 🦒, reading 📖, and travelling 🗺 (<a href="map.html">here</a> is a - hopefully growing - map of places I've visited). </p> -->
+				</p>
+				<code id="msgend">
+				</code>
 			</div>
 		</article>
 </body>
