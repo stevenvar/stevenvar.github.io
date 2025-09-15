@@ -9,17 +9,11 @@
 	<script type="text/javascript">
 		function setMsg() {
 			const msg = [
-				["let about_me =", ""],
-				["var about_me =", ""],
-				["char** about_me = \"", "\";"],
-				["string aboutMe =", ""],
-				["auto aboutMe =", ""],
-				["#define ABOUTME ", ""],
-				["function about_me() {", "}"],
-				["(defvar aboutme ", ")"],
-				["aboutme() ->", "."],
-				["func aboutMe() -> () {", "}"],
-				["def about_me():", ""],];
+				["(fun about_me -> ", ")"],
+				["(λabout_me.", ")"],
+				["(\\about_me -> ", ")"],
+				["(lambda about_me :", ")"],
+				["auto about_me = []() {", "}"]];
 
 			let num = Math.floor(Math.random() * msg.length);
 			document.getElementById("msg").textContent = msg[num][0]
@@ -108,4 +102,5 @@
 		</article>
 
 </body>
+
 </html>

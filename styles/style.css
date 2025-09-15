@@ -61,9 +61,7 @@ abbr:hover {
 }
 
 #menu a:hover {
-
     color: #f4f6c3;
-
     text-decoration: none;
 }
 
@@ -71,21 +69,8 @@ abbr:hover {
     text-decoration: none;
 }
 
-#research a {
-    color: black;
-    font-weight: normal;
-    text-decoration: underline;
-
-}
-
-#research a:hover {
-    color: black;
-    text-decoration: none;
-
-}
-
 a {
-    color: rgb(79, 79, 79);
+    color: rgb(53, 94, 144);
     font-weight: normal;
     text-decoration: underline;
 
@@ -94,15 +79,6 @@ a {
 a:hover {
     text-decoration: none;
 
-}
-
-li a {
-    font-weight: bold;
-    text-decoration: none;
-}
-
-li a:hover {
-    text-decoration: underline;
 }
 
 #menu {
@@ -144,7 +120,7 @@ article {
 }
 
 article:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -189,94 +165,52 @@ article>ul>li {
         color: #dad8d8;
     }
 
-    #menu {
-        background-color: #3d4b79;
-    }
-
     td {
         border: 1px solid white;
     }
 
-    #research a {
-        color: #dad8d8;
-        font-weight: normal;
-        text-decoration: underline;
-
-    }
-
-    #research a:hover {
-        color: #dad8d8;
-        text-decoration: none;
-
-    }
-
     a {
-        color: #dad8d8;
+        color: #a4a1d8;
         font-weight: normal;
         text-decoration: underline;
 
     }
 
     a:hover {
-        color: #dad8d8;
         text-decoration: none;
+    }
 
+    #menu {
+        background-color: #3a574c;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        color: white;
+        font-size: 12pt;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
     }
 
     #menu a:hover {
-        color: #99a2c0;
+        color: #f4f6c3;
         text-decoration: none;
     }
 
+
     article {
-        background-color: #27272c;
+        background-color: #2d2d34;
     }
 
-    .abstract {
-        background-color: black;
-        border-left: 1px solid #BBBBBB;
-    }
-
-    #menu #name {
-        background-color: #4b425e;
-    }
-
-    #clicked {
-        color: #645880;
+    #msg,
+    #msgend {
+        color: #dfd7b1;
     }
 }
 
-
- .lambda{
-    display:inline-block;
-    font-size:1.8rem;
-    line-height:1;
-    font-weight:700;
-    font-family: Georgia, "Times New Roman", serif;
-    text-decoration:none;
-    color:inherit;
-    transform-origin: 50% 70%; /* pivot feels nicer for glyphs */
-    will-change: transform;
-    cursor:pointer;
+@media (max-width: 600px) {
+  article {
+    font-size: 18px;
   }
-
-/* 
-.lambda:hover{
-  animation: scoot 0.6s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-@keyframes scoot{
-  0%   { transform: translateX(0); }
-  50%  { transform: translateX(120px); }
-  70%  { transform: translateX(100px); }
-  100% { transform: translateX(110px); }
-} */
-
-.lambda:hover{
-  animation: wiggleX 1s ease-in-out infinite alternate;
-}
-
-@keyframes wiggleX{
-  from { transform: translateX(0); }
-  to   { transform: translateX(40px); }
 }
