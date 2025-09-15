@@ -1,7 +1,11 @@
 <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
 <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
 <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script>
+	<h1>Countries I've visited</h1>
+
 <div id="mapdiv" style="width: 1000px; height: 450px;"></div>
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+
 <div style="width: 1000px; font-size: 70%; padding: 5px 0; text-align: center; background-color: #3A3B3B; margin-top: 1px; color: #DEDEDE;"><a href="https://www.amcharts.com/visited_countries/" style="color: #DEDEDE;">Create your own visited countries map</a> or check out the <a href="https://www.amcharts.com/" style="color: #DEDEDE;">JavaScript Charts</a>.</div>
 <script type="text/javascript">
 var map = AmCharts.makeChart("mapdiv",{
@@ -78,6 +82,14 @@ areas :
 	{
 		"id": "US",
 		"showAsSelected": true
+	},
+	{
+		"id": "CN",
+		"showAsSelected": true
+	},
+		{
+		"id": "CH",
+		"showAsSelected": true
 	}
 ]
 },
@@ -92,3 +104,5 @@ rollOverOutlineColor : "#000000"
 }
 });
 </script>
+
+
